@@ -1,0 +1,19 @@
+{
+    "items": [
+        {
+            "id": 1,
+            "checked": false,
+            "item": "Java Script"
+        },
+        {
+            "id": 2,
+            "checked": true,
+            "item": "React JS"
+        },
+        {
+            "id": 3,
+            "checked": false,
+            "item":"Django"
+        }
+    ]
+}

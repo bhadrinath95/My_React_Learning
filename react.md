@@ -404,52 +404,114 @@ const handleSubmit = (e) => {
     setNewItem('');    // Clear the input field
 };
 ```
-
 ---
 
-## 13. React Project Challenge 1
-**Task:** Create a counter app with increment and reset functionality.
+## 13. React UseRef Hook
 
----
+- A React Hook that provides a mutable object (ref) that persists across renders.
+- Commonly used to directly reference a DOM element or persist mutable values that don't trigger re-renders.
 
-## 14. React UseRef Hook
 ```jsx
-const inputRef = useRef();
-<input ref={inputRef} />;
+import React, { useRef } from 'react';
+
+const MyComponent = () => {
+  const inputRef = useRef(); // Create a ref
+
+  const focusInput = () => {
+    inputRef.current.focus(); // Focus the input element
+  };
+
+  return (
+    <div>
+      <input ref={inputRef} type="text" />
+      <button onClick={focusInput}>Focus Input</button>
+    </div>
+  );
+};
 ```
 
 ---
 
-## 15. React UseEffect Hook
+## 14. React UseEffect Hook
+
+- A React Hook used to handle side effects in function components
+- Runs after the component renders and can be configured to re-run based on dependencies.
+
+### Basic Syntax
+
 ```jsx
 useEffect(() => {
   console.log('Component mounted or updated');
 }, [dependency]);
 ```
 
----
+### Example
 
-## 16. React Local Storage
 ```jsx
 useEffect(() => {
-  localStorage.setItem('key', 'value');
+  const savedItems = JSON.parse(localStorage.getItem("todo_list")) || [];
+  setItems(savedItems);
 }, []);
+
+useEffect(() => {
+  localStorage.setItem("todo_list", JSON.stringify(items));
+}, [items]);
 ```
 
 ---
 
-## 17. React Fetch API Data
+## 15. React Local Storage
+If all elements are deleted, the local storage returns an empty list by default "|| []".
+
 ```jsx
-useEffect(() => {
-  fetch('https://api.example.com/data')
-    .then((res) => res.json())
-    .then((data) => console.log(data));
-}, []);
+const [items, setItems] = useState(JSON.parse(localStorage.getItem("todo_list")) || []);
 ```
 
 ---
 
-## 18. React CRUD Operations
+## 16. React Fetch API Data
+
+### Setting Up JSON Server
+1. Install and start the JSON server:
+   ```sh
+   npx json-server -p 3500 -w data/db.json
+   ```
+
+2. Example `db.json` structure:
+   ```json
+   {
+       "items": [
+           {
+               "id": 1,
+               "checked": false,
+               "item": "Example Item"
+           }
+       ]
+   }
+   ```
+
+3. Fetching Data
+    ```jsx
+    useEffect(() => {
+      const fetchItems = async () => {
+        try {
+          const response = await fetch("http://localhost:3500/items");
+          if (!response.ok) throw Error("Failed to fetch data");
+          const data = await response.json();
+          setItems(data);
+        } catch (err) {
+          setFetchError(err.message);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchItems();
+    }, []);
+    ```
+
+---
+
+## 17. React CRUD Operations
 - **Create:** `POST`
 - **Read:** `GET`
 - **Update:** `PUT/PATCH`
@@ -457,12 +519,7 @@ useEffect(() => {
 
 ---
 
-## 19. React Project Challenge 2 Fetch Data
-**Task:** Create a dashboard app fetching and displaying API data dynamically.
-
----
-
-## 20. React Router V6
+## 18. React Router V6
 Install:
 ```bash
 npm install react-router-dom
@@ -480,7 +537,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 ---
 
-## 21. React CSS
+## 19. React CSS
 - Inline styling: `{ color: 'red' }`
 - Import CSS file:
 ```jsx
@@ -489,7 +546,7 @@ import './App.css';
 
 ---
 
-## 22. React Axios API Requests
+## 20. React Axios API Requests
 Install:
 ```bash
 npm install axios
@@ -502,7 +559,7 @@ axios.get('https://api.example.com/data').then((response) => console.log(respons
 
 ---
 
-## 23. React Custom Hooks
+## 21. React Custom Hooks
 ```jsx
 function useCustomHook() {
   const [data, setData] = useState(null);
@@ -512,7 +569,7 @@ function useCustomHook() {
 
 ---
 
-## 24. React Context API & useContext Hook
+## 22. React Context API & useContext Hook
 ```jsx
 const ThemeContext = React.createContext();
 function App() {
@@ -522,7 +579,7 @@ function App() {
 
 ---
 
-## 25. Deploy Your React Apps
+## 23. Deploy Your React Apps
 - **Netlify:** Drag and drop your build folder.
 - **Vercel:** Deploy using GitHub integration.
 

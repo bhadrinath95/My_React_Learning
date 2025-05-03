@@ -854,5 +854,5 @@ export default App;
 
 ---
 
-**Happy Coding to add!**
+**Happy Coding to all!**
 ```

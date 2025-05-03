@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>react.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="react-cheat-sheet">React Cheat Sheet</h1>
+<h2 id="1-introduction">1. Introduction</h2>
+<p>React is a JavaScript library for building user interfaces. It allows you to create reusable UI components and efficiently update and render components as data changes.</p>
+<hr>
+<h2 id="2-why-react">2. Why React?</h2>
+<ul>
+<li><strong>Component-based:</strong> Reusable and maintainable.</li>
+<li><strong>Virtual DOM:</strong> Fast updates and rendering.</li>
+<li><strong>Declarative:</strong> Easy to understand and debug.</li>
+<li><strong>Strong ecosystem:</strong> Community support, libraries, and tools.</li>
+</ul>
+<hr>
+<h2 id="3-setup">3. Setup</h2>
+<pre class="hljs"><code><div><span class="hljs-comment"># Install Node.js and npm</span>
+node -v
+npm -v
+
+<span class="hljs-comment"># Create React app</span>
+npx create-react-app my-app
+<span class="hljs-built_in">cd</span> my-app
+npm start
+</div></code></pre>
+<p>To add default snippet in Visual studio</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># React Arrow Function Component Export</span>
+Ctrl + Alt + R
+rafce 
+</div></code></pre>
+<hr>
+<h2 id="4-jsx">4. JSX</h2>
+<ul>
+<li>Combines HTML with JavaScript syntax.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> element = <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello, World!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span>;
+ReactDOM.render(element, <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'root'</span>));
+</div></code></pre>
+<hr>
+<h2 id="5-react-functional-components">5. React Functional Components</h2>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> Content = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Greeting</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello, React!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span>;
+    }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Content;
+</div></code></pre>
+<hr>
+<h2 id="6-react-applying-css-styles">6. React Applying CSS Styles</h2>
+<h3 id="inline-styling">Inline Styling</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">StyledComponent</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> styles = { <span class="hljs-attr">color</span>: <span class="hljs-string">'blue'</span>, <span class="hljs-attr">fontSize</span>: <span class="hljs-string">'20px'</span> };
+  <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">style</span>=<span class="hljs-string">{styles}</span>&gt;</span>Styled Component<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span>;
+}
+</div></code></pre>
+<h3 id="css-stylesheets">CSS Stylesheets</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">/* styles.css */</span>
+<span class="hljs-selector-class">.header</span> {
+  <span class="hljs-attribute">color</span>: red;
+  <span class="hljs-attribute">font-size</span>: <span class="hljs-number">24px</span>;
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> <span class="hljs-string">'./styles.css'</span>;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">CSSStylesheet</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"header"</span>&gt;</span>Hello, CSS Stylesheets!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span>;
+}
+</div></code></pre>
+<hr>
+<h2 id="7-react-click-events">7. React Click Events</h2>
+<h3 id="click-event">Click Event</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> handleClick = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Button Clicked!`</span>)
+}
+<span class="hljs-keyword">return</span> (
+<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{handleClick}</span>&gt;</span>Click Me<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span></span>
+)
+</div></code></pre>
+<h3 id="passing-argument-to-click-event">Passing argument to click event</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> handleClick = <span class="hljs-function">(<span class="hljs-params">name</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">${name}</span> clicked the button!`</span>)
+}
+<span class="hljs-keyword">return</span> (
+<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> handleClick('Bhadri')}&gt;Click Me<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span></span>
+)
+</div></code></pre>
+<h3 id="handling-click-event">Handling click event</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> handleClick = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(e.target.innerText)
+  e.target.innerText = <span class="hljs-string">"Handling Click Event"</span>
+}
+<span class="hljs-keyword">return</span> (
+<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{(e)</span> =&gt;</span> handleClick(e)}&gt;Click Me<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span></span>
+)
+</div></code></pre>
+<h3 id="double-click">Double click</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> handleDoubleClick = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Double Clicked!`</span>)
+}
+
+<span class="hljs-keyword">return</span> (
+<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onDoubleClick</span>=<span class="hljs-string">{handleDoubleClick}</span>&gt;</span>Double Click Me<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span></span>
+)
+</div></code></pre>
+<hr>
+<h2 id="8-react-usestate-hook">8. React useState Hook</h2>
+<h3 id="basic-syntax"><strong>Basic Syntax</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> [state, setState] = useState(initialValue);
+</div></code></pre>
+<ul>
+<li><strong><code>state</code></strong>: Current state value.</li>
+<li><strong><code>setState</code></strong>: Function to update the state.</li>
+<li><strong><code>initialValue</code></strong>: Initial value of the state.</li>
+</ul>
+<hr>
+<h3 id="usage-examples"><strong>Usage Examples</strong></h3>
+<h4 id="1-basic-counter-example">1. <strong>Basic Counter Example</strong></h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> React, { useState } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> [count, setCount] = useState(<span class="hljs-number">0</span>);
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Count: {count}<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> setCount(count + 1)}&gt;Increment<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> setCount(count - 1)}&gt;Decrement<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> setCount(0)}&gt;Reset<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Counter;
+</div></code></pre>
+<hr>
+<h4 id="2-using-strings">2. <strong>Using Strings</strong></h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> React, { useState } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Greeting</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> [name, setName] = useState(<span class="hljs-string">'Guest'</span>);
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello, {name}!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{(e)</span> =&gt;</span> setName(e.target.value)} placeholder="Enter your name" /&gt;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Greeting;
+</div></code></pre>
+<hr>
+<h4 id="3-using-objects">3. <strong>Using Objects</strong></h4>
+<ul>
+<li>When managing complex state, use an object.</li>
+<li>Always update using a shallow copy (spread operator) to avoid overwriting other properties.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> React, { useState } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">UserProfile</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> [user, setUser] = useState({ <span class="hljs-attr">name</span>: <span class="hljs-string">''</span>, <span class="hljs-attr">age</span>: <span class="hljs-string">''</span> });
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span>
+        <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span>
+        <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Name"</span>
+        <span class="hljs-attr">value</span>=<span class="hljs-string">{user.name}</span>
+        <span class="hljs-attr">onChange</span>=<span class="hljs-string">{(e)</span> =&gt;</span> setUser({ ...user, name: e.target.value })}
+      /&gt;
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span>
+        <span class="hljs-attr">type</span>=<span class="hljs-string">"number"</span>
+        <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Age"</span>
+        <span class="hljs-attr">value</span>=<span class="hljs-string">{user.age}</span>
+        <span class="hljs-attr">onChange</span>=<span class="hljs-string">{(e)</span> =&gt;</span> setUser({ ...user, age: e.target.value })}
+      /&gt;
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>
+        Name: {user.name}, Age: {user.age}
+      <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> UserProfile;
+</div></code></pre>
+<hr>
+<h4 id="4-using-arrays">4. <strong>Using Arrays</strong></h4>
+<ul>
+<li>Add, remove, or update elements in an array.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> React, { useState } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TodoList</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> [tasks, setTasks] = useState([]);
+
+  <span class="hljs-keyword">const</span> addTask = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> setTasks([...tasks, <span class="hljs-string">`Task <span class="hljs-subst">${tasks.length + <span class="hljs-number">1</span>}</span>`</span>]);
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{addTask}</span>&gt;</span>Add Task<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+        {tasks.map((task, index) =&gt; (
+          <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{index}</span>&gt;</span>{task}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        ))}
+      <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> TodoList;
+</div></code></pre>
+<hr>
+<h3 id="best-practices"><strong>Best Practices</strong></h3>
+<ol>
+<li>
+<p><strong>Initialize with the correct data type</strong>:</p>
+<ul>
+<li><code>useState(0)</code> for numbers.</li>
+<li><code>useState('')</code> for strings.</li>
+<li><code>useState([])</code> for arrays.</li>
+<li><code>useState({})</code> for objects.</li>
+</ul>
+</li>
+<li>
+<p><strong>Avoid directly mutating state</strong>:</p>
+<ul>
+<li>Always use the setter function or immutable operations.</li>
+</ul>
+<pre class="hljs"><code><div>setState([...state, newValue]);
+setState({ ...state, <span class="hljs-attr">key</span>: value });
+</div></code></pre>
+</li>
+<li>
+<p><strong>Functional Updates</strong>:</p>
+<ul>
+<li>Use a function if the new state depends on the previous state.</li>
+</ul>
+<pre class="hljs"><code><div>setState(<span class="hljs-function">(<span class="hljs-params">prevState</span>) =&gt;</span> prevState + <span class="hljs-number">1</span>);
+</div></code></pre>
+</li>
+<li>
+<p><strong>Multiple <code>useState</code> Hooks</strong>:</p>
+<ul>
+<li>Use multiple hooks for separate pieces of state instead of a single object.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="9-react-list-and-keys">9. React List and Keys</h2>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> items = [<span class="hljs-string">'Apple'</span>, <span class="hljs-string">'Banana'</span>, <span class="hljs-string">'Cherry'</span>];
+<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>{items.map((item, index) =&gt; <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{index}</span>&gt;</span>{item}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>)}<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></span>;
+</div></code></pre>
+<hr>
+<h2 id="10-react-icons">10. React Icons</h2>
+<p>Install the library:</p>
+<pre class="hljs"><code><div>npm install react-icons --save
+</div></code></pre>
+<p>Usage:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> { FaBeer } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-icons/fa'</span>;
+<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">FaBeer</span> /&gt;</span></span>;
+</div></code></pre>
+<hr>
+<h2 id="11-react-props--prop-drilling">11. React Props &amp; Prop Drilling</h2>
+<h3 id="react-props"><strong>React Props</strong></h3>
+<p>Props (short for &quot;properties&quot;) in React are used to pass data from a parent component to a child component. They are a fundamental way of making components dynamic and reusable. Props are immutable, meaning that the child component receiving them cannot modify them.</p>
+<h3 id="how-props-work"><strong>How Props Work</strong></h3>
+<ol>
+<li>
+<p><strong>Passing Props</strong>: Props are passed to a child component as attributes of the JSX element.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> Greeting = <span class="hljs-function">(<span class="hljs-params">props</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello, {props.name}!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span>;
+};
+
+<span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Greeting</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"Alice"</span> /&gt;</span></span>;
+};
+</div></code></pre>
+<p>In this example:</p>
+<ul>
+<li>The <code>Greeting</code> component receives a prop called <code>name</code>.</li>
+<li>The <code>App</code> component passes <code>&quot;Alice&quot;</code> as the value of the <code>name</code> prop.</li>
+</ul>
+</li>
+<li>
+<p><strong>Accessing Props</strong>: Props are accessible in the child component via the <code>props</code> object or by destructuring.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> Greeting = <span class="hljs-function">(<span class="hljs-params">{ name }</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello, {name}!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span>;
+};
+</div></code></pre>
+</li>
+</ol>
+<hr>
+<h3 id="prop-drilling"><strong>Prop Drilling</strong></h3>
+<p>Prop drilling occurs when props are passed through multiple levels of components to reach a deeply nested child. This often happens in large React applications where a deeply nested component needs data from a higher-level parent component.</p>
+<h4 id="example-of-prop-drilling"><strong>Example of Prop Drilling</strong></h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> GrandChild = <span class="hljs-function">(<span class="hljs-params">{ message }</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{message}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>;
+};
+
+<span class="hljs-keyword">const</span> Child = <span class="hljs-function">(<span class="hljs-params">{ message }</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">GrandChild</span> <span class="hljs-attr">message</span>=<span class="hljs-string">{message}</span> /&gt;</span></span>;
+};
+
+<span class="hljs-keyword">const</span> Parent = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> message = <span class="hljs-string">"Hello from Parent!"</span>;
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Child</span> <span class="hljs-attr">message</span>=<span class="hljs-string">{message}</span> /&gt;</span></span>;
+};
+</div></code></pre>
+<hr>
+<h2 id="12-react-controlled-inputs">12. React Controlled Inputs</h2>
+<p>In React, controlled inputs refer to form inputs (like text fields, checkboxes, radio buttons, etc.) whose values are controlled by the React state.</p>
+<h3 id="features-of-controlled-inputs"><strong>Features of Controlled Inputs</strong></h3>
+<h4 id="1-input-value-bound-to-state">1. <strong>Input Value Bound to State</strong></h4>
+<pre class="hljs"><code><div>&lt;input
+    autoFocus
+    id=<span class="hljs-string">"addItem"</span>
+    type=<span class="hljs-string">"text"</span>
+    placeholder=<span class="hljs-string">"Add Item"</span>
+    value={newItem}
+    onChange={(e) =&gt; setNewItem(e.target.value)}
+    required
+/&gt;
+</div></code></pre>
+<h4 id="2-state-driven-behavior">2. <strong>State-Driven Behavior</strong></h4>
+<p>The value shown in the input field is driven by the React state. When the state changes, the input value reflects the update.
+For instance:</p>
+<ul>
+<li>Adding a new item resets the <code>newItem</code> field by clearing its value using <code>setNewItem('')</code> after submission.</li>
+</ul>
+<h4 id="3-handling-form-submissions">3. <strong>Handling Form Submissions</strong></h4>
+<p>Event handlers like <code>handleSubmit</code> manage input actions, preventing default form behavior while allowing logic implementation:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> [newItem, setNewItem] = useState(<span class="hljs-string">""</span>)
+<span class="hljs-keyword">const</span> addItem = <span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> id = items.length ? items[items.length - <span class="hljs-number">1</span>].id + <span class="hljs-number">1</span> : <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">const</span> addNewItem = {id, <span class="hljs-attr">checked</span>: <span class="hljs-literal">false</span>, item};
+    <span class="hljs-keyword">const</span> listItems = [...items, addNewItem];
+    setItems(listItems)
+    localStorage.setItem(<span class="hljs-string">"todo_list"</span>, <span class="hljs-built_in">JSON</span>.stringify(listItems));
+};
+<span class="hljs-keyword">const</span> handleSubmit = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+    e.preventDefault(); <span class="hljs-comment">// Prevent default form submission behavior</span>
+    <span class="hljs-keyword">if</span> (!newItem) <span class="hljs-keyword">return</span>;
+    addItem(newItem);  <span class="hljs-comment">// Add new item to the list</span>
+    setNewItem(<span class="hljs-string">''</span>);    <span class="hljs-comment">// Clear the input field</span>
+};
+</div></code></pre>
+<hr>
+<h2 id="13-react-useref-hook">13. React UseRef Hook</h2>
+<ul>
+<li>A React Hook that provides a mutable object (ref) that persists across renders.</li>
+<li>Commonly used to directly reference a DOM element or persist mutable values that don't trigger re-renders.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> React, { useRef } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+
+<span class="hljs-keyword">const</span> MyComponent = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">const</span> inputRef = useRef(); <span class="hljs-comment">// Create a ref</span>
+
+  <span class="hljs-keyword">const</span> focusInput = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    inputRef.current.focus(); <span class="hljs-comment">// Focus the input element</span>
+  };
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{inputRef}</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{focusInput}</span>&gt;</span>Focus Input<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+};
+</div></code></pre>
+<hr>
+<h2 id="14-react-useeffect-hook">14. React UseEffect Hook</h2>
+<ul>
+<li>A React Hook used to handle side effects in function components</li>
+<li>Runs after the component renders and can be configured to re-run based on dependencies.</li>
+</ul>
+<h3 id="basic-syntax">Basic Syntax</h3>
+<pre class="hljs"><code><div>useEffect(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Component mounted or updated'</span>);
+}, [dependency]);
+</div></code></pre>
+<h3 id="example">Example</h3>
+<pre class="hljs"><code><div>useEffect(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">const</span> savedItems = <span class="hljs-built_in">JSON</span>.parse(localStorage.getItem(<span class="hljs-string">"todo_list"</span>)) || [];
+  setItems(savedItems);
+}, []);
+
+useEffect(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  localStorage.setItem(<span class="hljs-string">"todo_list"</span>, <span class="hljs-built_in">JSON</span>.stringify(items));
+}, [items]);
+</div></code></pre>
+<hr>
+<h2 id="15-react-local-storage">15. React Local Storage</h2>
+<p>If all elements are deleted, the local storage returns an empty list by default &quot;|| []&quot;.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> [items, setItems] = useState(<span class="hljs-built_in">JSON</span>.parse(localStorage.getItem(<span class="hljs-string">"todo_list"</span>)) || []);
+</div></code></pre>
+<hr>
+<h2 id="16-react-fetch-api-data">16. React Fetch API Data</h2>
+<h3 id="setting-up-json-server">Setting Up JSON Server</h3>
+<ol>
+<li>
+<p>Install and start the JSON server:</p>
+<pre class="hljs"><code><div>npx json-server -p 3500 -w data/db.json
+</div></code></pre>
+</li>
+<li>
+<p>Example <code>db.json</code> structure:</p>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">"items"</span>: [
+        {
+            <span class="hljs-attr">"id"</span>: <span class="hljs-number">1</span>,
+            <span class="hljs-attr">"checked"</span>: <span class="hljs-literal">false</span>,
+            <span class="hljs-attr">"item"</span>: <span class="hljs-string">"Example Item"</span>
+        }
+    ]
+}
+</div></code></pre>
+</li>
+<li>
+<p>Fetching Data</p>
+<pre class="hljs"><code><div>useEffect(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">const</span> fetchItems = <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">"http://localhost:3500/items"</span>);
+      <span class="hljs-keyword">if</span> (!response.ok) <span class="hljs-keyword">throw</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"Failed to fetch data"</span>);
+      <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> response.json();
+      setItems(data);
+    } <span class="hljs-keyword">catch</span> (err) {
+      setFetchError(err.message);
+    } <span class="hljs-keyword">finally</span> {
+      setIsLoading(<span class="hljs-literal">false</span>);
+    }
+  };
+  fetchItems();
+}, []);
+</div></code></pre>
+</li>
+</ol>
+<hr>
+<h2 id="17-react-crud-operations">17. React CRUD Operations</h2>
+<h3 id="api-request-utility">API Request Utility</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> apiRequest = <span class="hljs-keyword">async</span> (url = <span class="hljs-string">''</span>, optionsObj= <span class="hljs-literal">null</span>, errMsg= <span class="hljs-literal">null</span>) =&gt; {
+    <span class="hljs-keyword">try</span> {
+        <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> fetch(url, optionsObj)
+        <span class="hljs-keyword">if</span>(!response.ok) <span class="hljs-keyword">throw</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"Please reload the app"</span>)
+    } <span class="hljs-keyword">catch</span>(err){
+        errMsg = err.Message;
+    } <span class="hljs-keyword">finally</span>{
+        <span class="hljs-keyword">return</span> errMsg
+    }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> apiRequest
+</div></code></pre>
+<h3 id="crud-operations">CRUD Operations</h3>
+<h4 id="add-item">Add Item</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> addItem = <span class="hljs-keyword">async</span> (item) =&gt; {
+    <span class="hljs-keyword">const</span> id = items.length ? <span class="hljs-built_in">Number</span>(items[items.length - <span class="hljs-number">1</span>].id) + <span class="hljs-number">1</span> : <span class="hljs-number">1</span>; 
+    <span class="hljs-keyword">const</span> addNewItem = {id, <span class="hljs-attr">checked</span>: <span class="hljs-literal">false</span>, item};
+    setItems([...items, addNewItem])
+
+    <span class="hljs-keyword">const</span> postOptions = {
+      <span class="hljs-attr">method</span>: <span class="hljs-string">'POST'</span>,
+      <span class="hljs-attr">headers</span>: {<span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'application/json'</span>},
+      <span class="hljs-attr">body</span>: <span class="hljs-built_in">JSON</span>.stringify(addNewItem)
+    }
+    <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> apiRequest(API_URL, postOptions)
+    <span class="hljs-keyword">if</span>(result) setFetchError(result)
+}
+</div></code></pre>
+<h4 id="update-item">Update Item</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> handleCheck = <span class="hljs-keyword">async</span> (id) =&gt; {
+    <span class="hljs-keyword">const</span> listItem = items.map(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span>
+      item.id === id ? {...item, <span class="hljs-attr">checked</span>: !item.checked}: item
+    )
+    setItems(listItem);
+
+    <span class="hljs-keyword">const</span> updateOptions = {
+      <span class="hljs-attr">method</span>: <span class="hljs-string">'PATCH'</span>,
+      <span class="hljs-attr">headers</span>: {<span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'application/json'</span>},
+      <span class="hljs-attr">body</span>: <span class="hljs-built_in">JSON</span>.stringify({<span class="hljs-attr">checked</span>: listItem.find(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> item.id === id).checked})
+    }
+    <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> apiRequest(<span class="hljs-string">`<span class="hljs-subst">${API_URL}</span>/<span class="hljs-subst">${id}</span>`</span>, updateOptions)
+    <span class="hljs-keyword">if</span>(result) setFetchError(result)
+}
+</div></code></pre>
+<h4 id="delete-item">Delete Item</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> handleDelete = <span class="hljs-keyword">async</span> (id) =&gt; {
+    setItems(items.filter(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> item.id !== id));
+
+    <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> apiRequest(<span class="hljs-string">`<span class="hljs-subst">${API_URL}</span>/<span class="hljs-subst">${id}</span>`</span>, { <span class="hljs-attr">method</span>: <span class="hljs-string">'DELETE'</span> })
+    <span class="hljs-keyword">if</span>(result) setFetchError(result)
+}
+</div></code></pre>
+<hr>
+<h2 id="18-react-router-v6">18. React Router V6</h2>
+<p>Install:</p>
+<pre class="hljs"><code><div>npm install react-router-dom
+</div></code></pre>
+<p>Usage:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> { BrowserRouter, Route, Routes } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router-dom'</span>;
+<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">BrowserRouter</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">Routes</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/"</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">Home</span> /&gt;</span>} /&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/about"</span> <span class="hljs-attr">element</span>=<span class="hljs-string">{</span>&lt;<span class="hljs-attr">About</span> /&gt;</span>} /&gt;
+  <span class="hljs-tag">&lt;/<span class="hljs-name">Routes</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">BrowserRouter</span>&gt;</span></span>;
+</div></code></pre>
+<hr>
+<h2 id="19-react-css">19. React CSS</h2>
+<ul>
+<li>Inline styling: <code>{ color: 'red' }</code></li>
+<li>Import CSS file:</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> <span class="hljs-string">'./App.css'</span>;
+</div></code></pre>
+<hr>
+<h2 id="20-react-axios-api-requests">20. React Axios API Requests</h2>
+<p>Install:</p>
+<pre class="hljs"><code><div>npm install axios
+</div></code></pre>
+<p>Usage:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">'axios'</span>;
+axios.get(<span class="hljs-string">'https://api.example.com/data'</span>).then(<span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> <span class="hljs-built_in">console</span>.log(response));
+</div></code></pre>
+<hr>
+<h2 id="21-react-custom-hooks">21. React Custom Hooks</h2>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useCustomHook</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> [data, setData] = useState(<span class="hljs-literal">null</span>);
+  <span class="hljs-keyword">return</span> { data };
+}
+</div></code></pre>
+<hr>
+<h2 id="22-react-context-api--usecontext-hook">22. React Context API &amp; useContext Hook</h2>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> ThemeContext = React.createContext();
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">App</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> theme = useContext(ThemeContext);
+}
+</div></code></pre>
+<hr>
+<h2 id="23-deploy-your-react-apps">23. Deploy Your React Apps</h2>
+<ul>
+<li><strong>Netlify:</strong> Drag and drop your build folder.</li>
+<li><strong>Vercel:</strong> Deploy using GitHub integration.</li>
+</ul>
+<hr>
+<p><strong>Happy Coding!</strong></p>
+<pre class="hljs"><code><div></div></code></pre>
+
+</body>
+</html>

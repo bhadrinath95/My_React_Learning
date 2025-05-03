@@ -1,0 +1,858 @@
+# React Cheat Sheet
+
+## 1. Introduction
+React is a JavaScript library for building user interfaces. It allows you to create reusable UI components and efficiently update and render components as data changes.
+
+---
+
+## 2. Why React?
+- **Component-based:** Reusable and maintainable.
+- **Virtual DOM:** Fast updates and rendering.
+- **Declarative:** Easy to understand and debug.
+- **Strong ecosystem:** Community support, libraries, and tools.
+
+---
+
+## 3. Setup
+```bash
+# Install Node.js and npm
+node -v
+npm -v
+
+# Create React app
+npx create-react-app my-app
+cd my-app
+npm start
+
+# For error cannot find module 'ajv/dist/compile/codegen'
+npm install --save-dev ajv@^7 
+```
+
+To add default snippet in Visual studio
+```bash
+# React Arrow Function Component Export
+Ctrl + Alt + R
+rafce 
+```
+
+---
+
+## 4. JSX
+- Combines HTML with JavaScript syntax.
+```jsx
+const element = <h1>Hello, World!</h1>;
+ReactDOM.render(element, document.getElementById('root'));
+```
+
+---
+
+## 5. React Functional Components
+```jsx
+const Content = () => {
+    function Greeting() {
+        return <h1>Hello, React!</h1>;
+    }
+}
+
+export default Content;
+```
+
+---
+
+## 6. React Applying CSS Styles
+
+### Inline Styling
+
+```jsx
+function StyledComponent() {
+  const styles = { color: 'blue', fontSize: '20px' };
+  return <h1 style={styles}>Styled Component</h1>;
+}
+```
+
+###  CSS Stylesheets
+
+```css
+/* styles.css */
+.header {
+  color: red;
+  font-size: 24px;
+}
+```
+
+```jsx
+import './styles.css';
+function CSSStylesheet() {
+  return <h1 className="header">Hello, CSS Stylesheets!</h1>;
+}
+```
+
+---
+
+## 7. React Click Events
+
+### Click Event
+
+```jsx
+const handleClick = () => {
+  console.log(`Button Clicked!`)
+}
+return (
+<main>
+  <button onClick={handleClick}>Click Me</button>
+</main>
+)
+```
+
+### Passing argument to click event
+
+```jsx
+const handleClick = (name) => {
+  console.log(`${name} clicked the button!`)
+}
+return (
+<main>
+  <button onClick={() => handleClick('Bhadri')}>Click Me</button>
+</main>
+)
+```
+
+### Handling click event
+
+```jsx
+const handleClick = (e) => {
+  console.log(e.target.innerText)
+  e.target.innerText = "Handling Click Event"
+}
+return (
+<main>
+  <button onClick={(e) => handleClick(e)}>Click Me</button>
+</main>
+)
+```
+
+### Double click
+
+```jsx
+const handleDoubleClick = () => {
+  console.log(`Double Clicked!`)
+}
+
+return (
+<main>
+  <button onDoubleClick={handleDoubleClick}>Double Click Me</button>
+</main>
+)
+```
+
+---
+
+## 8. React useState Hook
+
+### **Basic Syntax**
+```jsx
+const [state, setState] = useState(initialValue);
+```
+- **`state`**: Current state value.
+- **`setState`**: Function to update the state.
+- **`initialValue`**: Initial value of the state.
+
+---
+
+### **Usage Examples**
+
+#### 1. **Basic Counter Example**
+```jsx
+import React, { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <button onClick={() => setCount(count - 1)}>Decrement</button>
+      <button onClick={() => setCount(0)}>Reset</button>
+    </div>
+  );
+}
+
+export default Counter;
+```
+
+---
+
+#### 2. **Using Strings**
+```jsx
+import React, { useState } from 'react';
+
+function Greeting() {
+  const [name, setName] = useState('Guest');
+
+  return (
+    <div>
+      <h1>Hello, {name}!</h1>
+      <input type="text" onChange={(e) => setName(e.target.value)} placeholder="Enter your name" />
+    </div>
+  );
+}
+
+export default Greeting;
+```
+
+---
+
+#### 3. **Using Objects**
+- When managing complex state, use an object.  
+- Always update using a shallow copy (spread operator) to avoid overwriting other properties.
+
+```jsx
+import React, { useState } from 'react';
+
+function UserProfile() {
+  const [user, setUser] = useState({ name: '', age: '' });
+
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Name"
+        value={user.name}
+        onChange={(e) => setUser({ ...user, name: e.target.value })}
+      />
+      <input
+        type="number"
+        placeholder="Age"
+        value={user.age}
+        onChange={(e) => setUser({ ...user, age: e.target.value })}
+      />
+      <p>
+        Name: {user.name}, Age: {user.age}
+      </p>
+    </div>
+  );
+}
+
+export default UserProfile;
+```
+
+---
+
+#### 4. **Using Arrays**
+- Add, remove, or update elements in an array.
+
+```jsx
+import React, { useState } from 'react';
+
+function TodoList() {
+  const [tasks, setTasks] = useState([]);
+
+  const addTask = () => setTasks([...tasks, `Task ${tasks.length + 1}`]);
+
+  return (
+    <div>
+      <button onClick={addTask}>Add Task</button>
+      <ul>
+        {tasks.map((task, index) => (
+          <li key={index}>{task}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default TodoList;
+```
+
+---
+
+### **Best Practices**
+1. **Initialize with the correct data type**:
+   - `useState(0)` for numbers.
+   - `useState('')` for strings.
+   - `useState([])` for arrays.
+   - `useState({})` for objects.
+
+2. **Avoid directly mutating state**:
+   - Always use the setter function or immutable operations.
+   ```jsx
+   setState([...state, newValue]);
+   setState({ ...state, key: value });
+   ```
+
+3. **Functional Updates**:
+   - Use a function if the new state depends on the previous state.
+   ```jsx
+   setState((prevState) => prevState + 1);
+   ```
+
+4. **Multiple `useState` Hooks**:
+   - Use multiple hooks for separate pieces of state instead of a single object.
+
+---
+
+## 9. React List and Keys
+```jsx
+const items = ['Apple', 'Banana', 'Cherry'];
+<ul>{items.map((item, index) => <li key={index}>{item}</li>)}</ul>;
+```
+
+---
+
+## 10. React Icons
+Install the library:
+```bash
+npm install react-icons --save
+```
+Usage:
+```jsx
+import { FaBeer } from 'react-icons/fa';
+<FaBeer />;
+```
+
+---
+
+## 11. React Props & Prop Drilling
+
+### **React Props**
+
+Props (short for "properties") in React are used to pass data from a parent component to a child component. They are a fundamental way of making components dynamic and reusable. Props are immutable, meaning that the child component receiving them cannot modify them.
+
+### **How Props Work**
+1. **Passing Props**: Props are passed to a child component as attributes of the JSX element.
+   ```jsx
+   const Greeting = (props) => {
+       return <h1>Hello, {props.name}!</h1>;
+   };
+
+   const App = () => {
+       return <Greeting name="Alice" />;
+   };
+   ```
+   In this example:
+   - The `Greeting` component receives a prop called `name`.
+   - The `App` component passes `"Alice"` as the value of the `name` prop.
+
+2. **Accessing Props**: Props are accessible in the child component via the `props` object or by destructuring.
+   ```jsx
+   const Greeting = ({ name }) => {
+       return <h1>Hello, {name}!</h1>;
+   };
+   ```
+
+---
+
+### **Prop Drilling**
+
+Prop drilling occurs when props are passed through multiple levels of components to reach a deeply nested child. This often happens in large React applications where a deeply nested component needs data from a higher-level parent component.
+
+#### **Example of Prop Drilling**
+```jsx
+const GrandChild = ({ message }) => {
+    return <p>{message}</p>;
+};
+
+const Child = ({ message }) => {
+    return <GrandChild message={message} />;
+};
+
+const Parent = () => {
+    const message = "Hello from Parent!";
+    return <Child message={message} />;
+};
+```
+
+---
+
+## 12. React Controlled Inputs
+
+In React, controlled inputs refer to form inputs (like text fields, checkboxes, radio buttons, etc.) whose values are controlled by the React state. 
+
+### **Features of Controlled Inputs**
+
+#### 1. **Input Value Bound to State**
+```jsx
+<input
+    autoFocus
+    id="addItem"
+    type="text"
+    placeholder="Add Item"
+    value={newItem}
+    onChange={(e) => setNewItem(e.target.value)}
+    required
+/>
+```
+
+#### 2. **State-Driven Behavior**
+The value shown in the input field is driven by the React state. When the state changes, the input value reflects the update. 
+For instance:
+- Adding a new item resets the `newItem` field by clearing its value using `setNewItem('')` after submission.
+
+#### 3. **Handling Form Submissions**
+Event handlers like `handleSubmit` manage input actions, preventing default form behavior while allowing logic implementation:
+```jsx
+const [newItem, setNewItem] = useState("")
+const addItem = (item) => {
+    const id = items.length ? items[items.length - 1].id + 1 : 1;
+    const addNewItem = {id, checked: false, item};
+    const listItems = [...items, addNewItem];
+    setItems(listItems)
+    localStorage.setItem("todo_list", JSON.stringify(listItems));
+};
+const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+    if (!newItem) return;
+    addItem(newItem);  // Add new item to the list
+    setNewItem('');    // Clear the input field
+};
+```
+---
+
+## 13. React UseRef Hook
+
+- A React Hook that provides a mutable object (ref) that persists across renders.
+- Commonly used to directly reference a DOM element or persist mutable values that don't trigger re-renders.
+
+```jsx
+import React, { useRef } from 'react';
+
+const MyComponent = () => {
+  const inputRef = useRef(); // Create a ref
+
+  const focusInput = () => {
+    inputRef.current.focus(); // Focus the input element
+  };
+
+  return (
+    <div>
+      <input ref={inputRef} type="text" />
+      <button onClick={focusInput}>Focus Input</button>
+    </div>
+  );
+};
+```
+
+---
+
+## 14. React UseEffect Hook
+
+- A React Hook used to handle side effects in function components
+- Runs after the component renders and can be configured to re-run based on dependencies.
+
+### Basic Syntax
+
+```jsx
+useEffect(() => {
+  console.log('Component mounted or updated');
+}, [dependency]);
+```
+
+### Example
+
+```jsx
+useEffect(() => {
+  const savedItems = JSON.parse(localStorage.getItem("todo_list")) || [];
+  setItems(savedItems);
+}, []);
+
+useEffect(() => {
+  localStorage.setItem("todo_list", JSON.stringify(items));
+}, [items]);
+```
+
+---
+
+## 15. React Local Storage
+If all elements are deleted, the local storage returns an empty list by default "|| []".
+
+```jsx
+const [items, setItems] = useState(JSON.parse(localStorage.getItem("todo_list")) || []);
+```
+
+---
+
+## 16. React Fetch API Data
+
+### Setting Up JSON Server
+1. Install and start the JSON server:
+   ```sh
+   npx json-server -p 3500 -w data/db.json
+   ```
+
+2. Example `db.json` structure:
+   ```json
+   {
+       "items": [
+           {
+               "id": 1,
+               "checked": false,
+               "item": "Example Item"
+           }
+       ]
+   }
+   ```
+
+3. Fetching Data
+    ```jsx
+    useEffect(() => {
+      const fetchItems = async () => {
+        try {
+          const response = await fetch("http://localhost:3500/items");
+          if (!response.ok) throw Error("Failed to fetch data");
+          const data = await response.json();
+          setItems(data);
+        } catch (err) {
+          setFetchError(err.message);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchItems();
+    }, []);
+    ```
+
+---
+
+## 17. React CRUD Operations
+
+### API Request Utility
+
+```javascript
+const apiRequest = async (url = '', optionsObj= null, errMsg= null) => {
+    try {
+        const response = await fetch(url, optionsObj)
+        if(!response.ok) throw Error("Please reload the app")
+    } catch(err){
+        errMsg = err.Message;
+    } finally{
+        return errMsg
+    }
+}
+
+export default apiRequest
+```
+
+### CRUD Operations
+
+#### Add Item
+
+```javascript
+const addItem = async (item) => {
+    const id = items.length ? Number(items[items.length - 1].id) + 1 : 1; 
+    const addNewItem = {id, checked: false, item};
+    setItems([...items, addNewItem])
+
+    const postOptions = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(addNewItem)
+    }
+    const result = await apiRequest(API_URL, postOptions)
+    if(result) setFetchError(result)
+}
+```
+
+#### Update Item
+
+```javascript
+const handleCheck = async (id) => {
+    const listItem = items.map((item) =>
+      item.id === id ? {...item, checked: !item.checked}: item
+    )
+    setItems(listItem);
+
+    const updateOptions = {
+      method: 'PATCH',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({checked: listItem.find(item => item.id === id).checked})
+    }
+    const result = await apiRequest(`${API_URL}/${id}`, updateOptions)
+    if(result) setFetchError(result)
+}
+```
+
+#### Delete Item
+
+```javascript
+const handleDelete = async (id) => {
+    setItems(items.filter(item => item.id !== id));
+
+    const result = await apiRequest(`${API_URL}/${id}`, { method: 'DELETE' })
+    if(result) setFetchError(result)
+}
+```
+
+
+---
+
+## 18. React Router V6
+
+### Install:
+```bash
+npm install react-router-dom
+```
+### Usage:
+```jsx
+import { BrowserRouter, Route, Routes, Link, useParams } from 'react-router-dom';
+
+const Post = () => {
+    const { id } = useParams();
+    return (
+        <main>
+            <h1>Post {id}</h1>
+        </main>
+    );
+};
+
+const PostLayout = () => {
+  return (
+    <>
+      <Link to="/postpage/1">Post 1</Link>
+      <Link to="/postpage/2">Post 2</Link>
+      <Link to='/postpage/newpost'>Newpost</Link>
+      <Outlet />
+    </>
+  )
+}
+
+<BrowserRouter>
+  <Link to='/'>Home</Link>
+  <Link to='/about'>About</Link>
+  <Routes>
+    <Route path='/' element={<Home />} />
+    <Route path='/about' element={<About />} />
+    <Route path='/postpage' element={<PostLayout />}>
+      <Route index element={<PostPage/>} />
+      <Route path=':id' element={<Post />} />
+      <Route path='newpost' element={<NewPost />} />
+    </Route>
+    <Route path='*' element={<Missing />} />
+  </Routes>
+</BrowserRouter>;
+```
+
+## 19. React CSS
+
+### React Root Initialization
+```jsx
+const root = ReactDOM.createRoot(document.getElementById('root'));
+```
+
+### HTML Structure
+```html
+<div id="root"></div>
+```
+
+### CSS Styling
+```css
+#root {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+```
+---
+
+## 20. React Axios API Requests
+
+### Installation
+```sh
+npm i axios
+```
+
+### `./api/posts.js`
+```javascript
+import axios from "axios";
+
+export default axios.create({
+    baseURL: "http://localhost:3500"
+});
+```
+
+### Fetching Posts (GET Request)
+```javascript
+const response = await api.get('/posts');
+setPosts(response.data);
+```
+
+### Creating a New Post (POST Request)
+```javascript
+const response = await api.post('/posts', newPost);
+const allPosts = [...posts, response.data];
+setPosts(allPosts);
+```
+
+### Deleting a Post (DELETE Request)
+```javascript
+await api.delete(`/posts/${id}`);
+const postsList = posts.filter(post => post.id !== id);
+setPosts(postsList);
+```
+
+### Updating a Post (PUT Request)
+```javascript
+const response = await api.put(`/posts/${id}`, updatedPost);
+setPosts(posts.map(post => post.id === id ? {...response.data} : post));
+```
+---
+
+## 21. React Custom Hooks
+
+### useAxiosFetch Hook
+Fetches data using Axios with error handling and loading state.
+
+```javascript
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const useAxiosFetch = (dataUrl) => {
+    const [data, setData] = useState([]);
+    const [fetchError, setFetchError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        let isMounted = true;
+        const source = axios.CancelToken.source();
+
+        const fetchData = async (url) => {
+            setIsLoading(true);
+            try {
+                const response = await axios.get(url, { cancelToken: source.token });
+                if (isMounted) {
+                    setData(response.data);
+                    setFetchError(null);
+                }
+            } catch (err) {
+                if (isMounted) {
+                    setFetchError(err.message);
+                    setData([]);
+                }
+            } finally {
+                isMounted && setIsLoading(false);
+            }
+        };
+
+        fetchData(dataUrl);
+
+        return () => {
+            isMounted = false;
+            source.cancel();
+        };
+    }, [dataUrl]);
+
+    return { data, fetchError, isLoading };
+};
+
+export default useAxiosFetch;
+```
+
+### useWindowSize Hook
+Tracks window dimensions.
+
+```javascript
+import { useState, useEffect } from "react";
+
+const useWindowSize = () => {
+    const [windowSize, setWindowSize] = useState({ width: undefined, height: undefined });
+
+    useEffect(() => {
+        const handleResize = () => setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    return windowSize;
+};
+
+export default useWindowSize;
+```
+
+### Usage Example (`App.js`)
+
+```javascript
+import useWindowSize from "./hooks/useWindowSize";
+import useAxiosFetch from "./hooks/useAxiosFetch";
+import { useEffect, useState } from "react";
+import Header from "./Header";
+
+const App = () => {
+    const { width } = useWindowSize();
+    const { data } = useAxiosFetch("http://localhost:3500/posts");
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+        setPosts(data);
+    }, [data]);
+
+    return (
+        <div>
+            <Header title="Bhadri Social Media" width={width} />
+            {posts.map(post => <p key={post.id}>{post.title}</p>)}
+        </div>
+    );
+};
+
+export default App;
+```
+
+---
+
+## 22. React Context API & useContext Hook
+
+```jsx
+// Context/DataContext.js
+import { createContext } from "react";
+
+const DataContext = createContext({});
+
+export const DataProvider = ({ children }) => {
+  const width = 10;
+  return (
+    <DataContext.Provider value={{ width }}>
+      {children}
+    </DataContext.Provider>
+  );
+};
+
+export default DataContext;
+```
+
+### Using the Context in Components
+
+```jsx
+// App.js
+import { DataProvider } from "./context/DataContext";
+import DataContext from "./context/DataContext";
+import { useContext } from "react";
+
+function DisplayWidth() {
+  const { width } = useContext(DataContext);
+  return <h1>Width: {width}</h1>;
+}
+
+function App() {
+  return (
+    <DataProvider>
+      <div className="App">
+        <DisplayWidth />
+      </div>
+    </DataProvider>
+  );
+}
+
+export default App;
+```
+
+---
+
+## 23. Deploy Your React Apps
+- **Netlify:** Drag and drop your build folder.
+- **Vercel:** Deploy using GitHub integration.
+
+---
+
+**Happy Coding!**
+```
